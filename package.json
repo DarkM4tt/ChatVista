@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "dev": "concurrently \"npm start --prefix frontend\" \"nodemon backend/server.js\"",
     "start": "nodemon backend/server.js"
   },
   "author": "Prabhat Mani Srivastava",
@@ -17,5 +18,8 @@
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.3",
     "nodemon": "^2.0.22"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }
