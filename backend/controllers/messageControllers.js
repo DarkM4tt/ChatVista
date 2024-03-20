@@ -16,16 +16,13 @@ const allMessages = asyncHandler(async (req, res) => {
 });
 
 const sendMessage = asyncHandler(async (req, res) => {
-  console.log('Hello');
   const { content, chatId } = req.body;
 
   if (!content || !chatId) {
     console.log("Invalid data passed into request");
     return res.sendStatus(400);
   }
-
-  console.log("User ID = ", req.user._id);
-
+  
   var newMessage = {
     sender: req.user._id,
     content: content,
