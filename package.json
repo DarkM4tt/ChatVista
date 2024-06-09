@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "concurrently \"npm start --prefix frontend\" \"nodemon backend/server.js\"",
-    "start": "node backend/server.js",
+    "start": "concurrently \"npm start --prefix frontend\" \"nodemon backend/server.js\"",
     "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Prabhat Mani Srivastava",

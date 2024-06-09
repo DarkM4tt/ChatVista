@@ -51,7 +51,6 @@ const Signup = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setPic(data.url.toString());
           setPicLoading(false);
         })
