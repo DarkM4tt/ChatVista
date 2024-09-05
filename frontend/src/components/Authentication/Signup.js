@@ -9,8 +9,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
-import axios from "axios"
-import { useHistory } from "react-router-dom"
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -55,7 +55,6 @@ const Signup = () => {
           setPicLoading(false);
         })
         .catch((err) => {
-          console.log(err);
           setPicLoading(false);
         });
     } else {
@@ -80,9 +79,9 @@ const Signup = () => {
         status: "warning",
         duration: 5000,
         isClosable: true,
-        position: "bottom"
+        position: "bottom",
       });
-      setPicLoading(false)
+      setPicLoading(false);
       return;
     }
 
@@ -92,34 +91,34 @@ const Signup = () => {
         status: "warning",
         duration: 5000,
         isClosable: true,
-        position: "bottom"
-      })
+        position: "bottom",
+      });
       return;
     }
 
     try {
       const config = {
         headers: {
-          "Content-type": "application/json"
+          "Content-type": "application/json",
         },
-      }
+      };
 
       const { data } = await axios.post(
         "/api/user",
         { name, email, password, pic },
         config
-      )
+      );
       toast({
         title: "Registration Successful",
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "bottom"
-      })
+        position: "bottom",
+      });
 
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      setPicLoading(false)
-      history.push('/chats')
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setPicLoading(false);
+      history.push("/chats");
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -127,9 +126,9 @@ const Signup = () => {
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: "bottom"
-      })
-      setPicLoading(false)
+        position: "bottom",
+      });
+      setPicLoading(false);
     }
   };
 

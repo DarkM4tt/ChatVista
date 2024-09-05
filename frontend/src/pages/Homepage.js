@@ -14,10 +14,10 @@ import {
 import { useHistory } from "react-router-dom";
 
 const Homepage = () => {
-  const history = useHistory()
+  const history = useHistory();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("userInfo"))
+    const user = JSON.parse(localStorage.getItem("userInfo"));
 
     if (user) history.push("/chats");
   }, [history]);
@@ -35,7 +35,7 @@ const Homepage = () => {
         borderWidth="1px"
       >
         <Text fontSize="4xl" fontFamily="Work sans" align="center">
-          Talk-A-Tive
+          Chat Vista
         </Text>
       </Box>
 
