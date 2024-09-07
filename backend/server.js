@@ -2,25 +2,27 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const colors = require("colors");
+const cors = require("cors"); // Add this
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
-const { chats } = require("./data/data");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
-const cors = require("cors");
 
 const app = express();
 dotenv.config();
 connectDB();
 
-app.use(express.json());
+// Enable CORS and specify allowed origins
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://chat-vista-ten.vercel.app"],
-    credentials: true,
+    origin: ["http://localhost:3000", "https://chat-vista-ten.vercel.app"], // Add allowed origins
+    credentials: true, // If you want to allow cookies or other credentials
   })
 );
+
+app.use(express.json());
+
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
@@ -50,7 +52,7 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://chat-vista-ten.vercel.app"], // Allow socket connections from these origins
   },
 });
 
