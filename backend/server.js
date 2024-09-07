@@ -102,3 +102,9 @@ io.on("connection", (socket) => {
     socket.leave(userData._id);
   });
 });
+
+// "scripts": {
+//     "dev": "concurrently \"npm start --prefix frontend\" \"nodemon backend/server.js\"",
+//     "start": "concurrently \"npm start --prefix frontend\" \"nodemon backend/server.js\"",
+//     "build": "npm install concurrently --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
+//   },

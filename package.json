@@ -4,9 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "concurrently \"npm start --prefix frontend\" \"nodemon backend/server.js\"",
-    "start": "concurrently \"npm start --prefix frontend\" \"nodemon backend/server.js\"",
-    "build": "npm install concurrently --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
+    "dev": "nodemon backend/server.js",
+    "start": "nodemon backend/server.js",
+    "build": "npm install --legacy-peer-deps"
   },
   "author": "Prabhat Mani Srivastava",
   "license": "ISC",
