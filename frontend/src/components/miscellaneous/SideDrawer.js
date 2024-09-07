@@ -21,7 +21,6 @@ import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { Avatar } from "@chakra-ui/avatar";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 import { useToast } from "@chakra-ui/toast";
 import ChatLoading from "../ChatLoading";
 import { Spinner } from "@chakra-ui/spinner";
@@ -30,7 +29,8 @@ import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
 import UserListItem from "../userAvatar/UserListItem";
 import { ChatState } from "../../context/ChatProvider";
-import { getSender } from './../../config/ChatLogics';
+import { getSender } from "./../../config/ChatLogics";
+import axiosClient from "../../config/axiosClient";
 
 function SideDrawer() {
   const [search, setSearch] = useState("");
@@ -77,7 +77,10 @@ function SideDrawer() {
         },
       };
 
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axiosClient.get(
+        `/api/user?search=${search}`,
+        config
+      );
 
       setLoading(false);
       setSearchResult(data);
@@ -94,7 +97,6 @@ function SideDrawer() {
   };
 
   const accessChat = async (userId) => {
-
     try {
       setLoadingChat(true);
       const config = {
@@ -103,7 +105,7 @@ function SideDrawer() {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.post(`/api/chat`, { userId }, config);
+      const { data } = await axiosClient.post(`/api/chat`, { userId }, config);
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);

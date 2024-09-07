@@ -8,13 +8,19 @@ const messageRoutes = require("./routes/messageRoutes");
 const { chats } = require("./data/data");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const path = require("path");
+const cors = require("cors");
 
 const app = express();
 dotenv.config();
 connectDB();
 
 app.use(express.json());
-
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://chat-vista-ten.vercel.app"],
+    credentials: true,
+  })
+);
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);

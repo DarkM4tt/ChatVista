@@ -9,8 +9,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
+import axiosClient from "../../config/axiosClient";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -103,7 +103,7 @@ const Signup = () => {
         },
       };
 
-      const { data } = await axios.post(
+      const { data } = await axiosClient.post(
         "/api/user",
         { name, email, password, pic },
         config

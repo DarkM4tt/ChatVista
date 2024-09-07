@@ -9,8 +9,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
-import axios from "axios"
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
+import axiosClient from "../../config/axiosClient";
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -31,35 +31,35 @@ const Login = () => {
         status: "warning",
         duration: 5000,
         isClosable: true,
-        position: "bottom"
+        position: "bottom",
       });
-      setPicLoading(false)
+      setPicLoading(false);
       return;
     }
 
     try {
       const config = {
         headers: {
-          "Content-type": "application/json"
+          "Content-type": "application/json",
         },
-      }
+      };
 
-      const { data } = await axios.post(
+      const { data } = await axiosClient.post(
         "/api/user/login",
         { email, password },
         config
-      )
+      );
       toast({
         title: "Logged In Successfully",
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "bottom"
-      })
+        position: "bottom",
+      });
 
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      setPicLoading(false)
-      history.push('/chats')
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setPicLoading(false);
+      history.push("/chats");
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -67,9 +67,9 @@ const Login = () => {
         status: "error",
         duration: 5000,
         isClosable: true,
-        position: "bottom"
-      })
-      setPicLoading(false)
+        position: "bottom",
+      });
+      setPicLoading(false);
     }
   };
 
