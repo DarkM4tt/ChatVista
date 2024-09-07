@@ -2,7 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const colors = require("colors");
-const cors = require("cors"); // Add this
+const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
@@ -13,13 +13,14 @@ const app = express();
 dotenv.config();
 connectDB();
 
-// Enable CORS and specify allowed origins
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://chat-vista-ten.vercel.app"], // Add allowed origins
-    credentials: true, // If you want to allow cookies or other credentials
+    origin: ["http://localhost:3000", "https://chat-vista-ten.vercel.app"],
+    credentials: true,
   })
 );
+
+app.options("*", cors());
 
 app.use(express.json());
 
@@ -42,8 +43,21 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,OPTIONS,POST,PUT,DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
 
+const PORT = process.env.PORT || 5000;
 const server = app.listen(
   PORT,
   console.log(`Server running on PORT ${PORT}...`.yellow.bold)
@@ -52,12 +66,13 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ["http://localhost:3000", "https://chat-vista-ten.vercel.app"], // Allow socket connections from these origins
+    origin: ["http://localhost:3000", "https://chat-vista-ten.vercel.app"],
   },
 });
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
+
   socket.on("setup", (userData) => {
     socket.join(userData._id);
     socket.emit("connected");
@@ -67,6 +82,7 @@ io.on("connection", (socket) => {
     socket.join(room);
     console.log("User Joined Room: " + room);
   });
+
   socket.on("typing", (room) => socket.in(room).emit("typing"));
   socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
@@ -77,7 +93,6 @@ io.on("connection", (socket) => {
 
     chat.users.forEach((user) => {
       if (user._id == newMessageRecieved.sender._id) return;
-
       socket.in(user._id).emit("message recieved", newMessageRecieved);
     });
   });
